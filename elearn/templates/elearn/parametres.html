@@ -1,0 +1,35 @@
+{% extends 'elearn/base.html' %}
+{% block title %} Mes parametres {% endblock %}
+{% block content %}
+    <div class="ui grid" style="padding-top: 80px">
+       <div class="three wide column"></div>
+        <div class="ten wide column">
+             <h1>Mes parametres</h1>
+         <div>
+             <h2>Mon compte</h2>
+             {% csrf_token %}
+             <form method="post" action="{% url 'parametre' %}" class="ui form">
+                {{ compteForm.as_p }}
+                 <input type="submit" value="Sauvegarder" class="ui primary button" />
+             </form><br />
+         </div>
+         <div>
+             <h2>Changement de mot de passe</h2>
+             {% csrf_token %}
+             <form method="post" action="{% url 'parametre' %}" class="ui form">
+                {{ passeForm.as_p }}
+                 <input type="submit" value="Réinitialiser le mot de passe" class="ui primary button" />
+             </form><br />
+         </div>
+         <div>
+             <h2>Suppression du compte</h2>
+             {% csrf_token %}
+             <form method="post" action="{% url 'parametre' %}" class="ui form">
+                 <input type="hidden" name="suppression" value="supprimer" />
+                 <input type="submit" value="Supprimer mon compte" class="ui primary button"/>
+             </form><br /><br />
+         </div>
+        </div>
+    </div>
+
+{% endblock %}

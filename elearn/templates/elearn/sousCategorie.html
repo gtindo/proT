@@ -1,0 +1,50 @@
+{% extends 'elearn/base.html' %}
+{% block title %}{{ sousCategorie.nom }}{% endblock %}
+{% block content %}
+    <div class="head-img">
+    </div>
+    <div class="catalogue" style="background: #DDDDDD">
+        <div class="ui stackable grid">
+            <div class="two wide column">
+            </div>
+            <div class="three wide column" style="padding-top: 120px">
+                <div class="ui vertical menu inverted blue">
+                    {% for cate in categories %}
+                        <a class="item" href="{% url 'categorie' cate.id %}">{{ cate.nom }}</a>
+                    {% endfor %}
+                </div><br /> <br />
+            </div>
+            <div class="nine wide column" style="padding-top: 120px">
+                <div class="ui breadcrumb">
+                    <a class="section" href="{% url 'catalogue' %}">Catalogue</a>
+                    <i class="right angle icon divider"></i>
+                    <a class="section" href="{% url 'categorie' categorie.id %}">{{ categorie.nom }}</a>
+                    <i class="right angle icon divider"></i>
+                    <div class="active section">{{ sousCategorie.nom }}</div>
+                </div><br /><br />
+                <div>
+                    <h1>{{ sousCategorie.nom }}</h1>
+                </div><br /><br />
+
+                            {% for cour in cours %}
+                                <div class="ui items cours_item" style="width:100%">
+                                    <div class="item">
+                                        <a class="ui tiny image">
+                                            <img src="/{{MEDIA_URL}}{{cour.logo.url}}">
+                                        </a>
+                                        <div class="content">
+                                            <a class="header" href="{% url 'cours' cour.id %}">{{ cour }}</a>
+                                            <div class="meta">
+                                                <span class="price">{{ cour.ecole }}</span>
+                                            </div>
+                                            <div class="description">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

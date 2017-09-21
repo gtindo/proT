@@ -1,0 +1,22 @@
+{% extends 'elearn/base.html' %}
+{% block title %} Catalogue {% endblock %}
+{% block content %}
+    <div class="catalogue">
+        <div class="ui stackable grid">
+            <div class="two wide column">
+            </div>
+            <div class="three wide column" style="padding-top:120px">
+                <div class="ui vertical menu inverted blue">
+                    {% for cate in categories %}
+                        <a class="item" href="{% url 'categorie' cate.id %}">{{ cate.nom }}</a>
+                    {% endfor %}
+                </div><br /> <br />
+            </div>
+            <div class="six wide column">
+                <p class="message">
+                    Des centaines de cours en matiere de business, informatique, science des donnees et bien plus encore.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Accueil</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{% static 'Semantic-UI/semantic.min.css' %}" />
+    <script src="{% static 'jquery.js' %}">
+    </script>
+    <script src="{% static 'Semantic-UI/semantic.min.js'%}">
+    </script>
+    <script src="{% static 'jquery.glide.min.js' %}">
+    </script>
+    <style>
+        .bg-image {
+            background-image: url('{% static "mountains.jpg" %}');
+            background-position: center;
+            background-size: cover;
+            border-bottom: 1px solid #DDDDDD;
+            width: 100%;
+            height: 500px;
+        }
+        
+        .intro {
+            padding-top: 190px;
+            width: 100%;
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 2.5em;
+        }
+        
+        .schools {
+            text-align: center;
+        }
+        
+        .schools h2 {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .schools span {
+            font-size: 3ex;
+        }
+        
+        .btn,
+        .top-courses h2,
+        .data-science h2 {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .top-courses,
+        .data-science {
+            padding-left: 5em;
+        }
+        
+        .card {
+            height: 250px;
+        }
+        
+        .computer-science {}
+        
+        .business {}
+        
+        .social-science {}
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <nav class="ui top fixed menu inverted blue">
+            <div class="item">
+                <img src="{% static 'logo.png' %}">
+            </div>
+
+            {% if user.is_authenticated %}
+
+            {% else %}
+                <a class="active item">
+                    Accueil
+                </a>
+            {% endif %}
+            <a class="item" href="{% url 'catalogue' %}">
+                Catalogue
+            </a>
+            <a class="item">
+                Écoles
+            </a>
+            <div class="right menu">
+                <div class="item">
+                    <div class="ui icon input">
+                        <input type="text" placeholder="Rechercher...">
+                        <i class="search link icon"></i>
+                    </div>
+                </div>
+                {% if user.is_authenticated %}
+                     <div class="item">
+                        <img src="{% static 'logo.png' %}">
+                     </div>
+                     <div class="ui dropdown item">
+                         {% if user.is_authenticated %}
+                            {{ user.username }}
+                         {% endif %}
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                          <a class="item" href="{% url 'accueil' %}">Cours </a>
+                          <a class="item" href="{% url 'profil' %}">Profil </a>
+                          <a class="item" href="{% url 'parametre' %}">Parametres </a>
+                          <a class="item">Aide</a>
+                          <a class="item" href="{% url 'deconnexion' %}">Deconnexion</a>
+                        </div>
+                     </div>
+                {% else %}
+                    <div class="item">
+                        <button id="connexion" class="ui button">
+                            Connexion
+                        </button>
+                    </div>
+                    <div class="item">
+                        <button id="inscription" class="ui primary button">
+                            Inscription
+                        </button>
+                    </div>
+                {% endif %}
+
+            </div>
+        </nav>
+
+    </header>
+
+    {% if user.is_authenticated %}
+
+         <div class="cours">
+            <div class="ui stackable grid">
+                <div class="one wide column">
+                </div>
+                <div class="three wide column" style="padding-top:80px">
+                    <div class="ui vertical menu inverted blue">
+                        <a class="item">Mes cours</a>
+                        <a class="item">Mises a jours</a>
+                        <a class="item">Accomplissements</a>
+                        <a class="item">Recommandations</a>
+
+                    </div><br /> <br />
+                </div>
+
+            </div>
+         </div>
+
+    {% else %}
+        <div class="bg-image">
+            <p class="intro">
+                Vous pouvez apprendre ce que vous voulez,</br>
+                où que vous soyez! </br>
+                <button class="ui button" id="inscription2">
+                    Inscription gratuite
+                </button>
+            </p>
+        </div>
+
+        <div class="schools ui stackable grid" style="padding-left:5.5em">
+            <h2>Nos écoles</h2>
+            <div class="five wide column" class="ui medium image">
+                <a href="#">
+                    <img src="{% static '3iac.png' %}"></br>
+                    <span>Institut d'Ingénierie d'afrique centrale.</span>
+                </a>
+            </div>
+            <div class="five wide column" class="ui medium image">
+                <a href="#">
+                    <img src="{% static 'icia.png' %}"></br>
+                    <span>Institut de Commerce et d'ingénierie d'affaire.</span>
+                </a>
+            </div>
+            <div class="five wide column" class="ui medium image">
+                <a href="#">
+                    <img src="{% static 'istdi.png' %}"></br>
+                    <span>Institut Supérieur des Technologies et du Design Industriel.</span>
+                </a>
+            </div>
+        </div>
+        <br /> <br />
+
+        <div class="top-courses">
+            <h2>Les cours populaires
+            </h2><br />
+            <div class="ui stackable grid">
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/machine-learning.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Machine learning</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/Learning-How-to-Learn-Logo-with-text.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Learn How to Learn: Powerful mental tools to help you master...</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/algorithms.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Algorithms, Part I</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/python.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Programming for everybody(Getting Started with python)</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/neutral.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Neutral Networks for machine learning</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2>
+                <button class="ui button">
+                        Tout voir
+                    </button>
+            </h2>
+        </div>
+        <br /><br />
+
+        <div class="data-science">
+            <h2>Data science </h2><br />
+            <div class="ui stackable grid">
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/data-py.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Introduction to Data Science in Python</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/data.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Data science</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/excel2.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Fundamentos de Excel para Negocios</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/machinelearning.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Machine Learning</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <div class="ui card">
+                        <div class="image">
+                            <img src="{% static './images/UCSD_BigData_PartnerProvided.jpg' %}" />
+                        </div>
+                        <div class="content">
+                            <a class="header">Big Data</a>
+                            <div class="description">univerity xxx</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2>
+                <button class="ui button">
+                        Tout voir
+                    </button>
+            </h2>
+        </div><br /><br />
+    {% endif %}
+
+
+
+
+
+    <div class="ui blue inverted vertical footer segment">
+        <div class="ui center aligned container">
+            <div class="ui stackable inverted grid">
+                <div class="four wide column">
+                    <h4 class="ui inverted header">Elearn</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="#" target="_blank">Qui somme nous ?</a>
+                        <a class="item" href="#" target="_blank">Fonctionnement de nos cours</a>
+                        <a class="item" href="#" target="_blank">Nous contacter</a> </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header">Réseau</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="#" target="_blank">Dépôt github</a>
+                        <a class="item" href="#" target="_blank">Facebook</a>
+                        <a class="item" href="#">Twitter</a>
+                        <a class="item" href="#">Youtube</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header">Partenaires</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="#" target="_blank">IUC</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <h4 class="ui inverted header">En savoir plus</h4>
+                    <div class="ui inverted link list">
+                        <a class="item" href="#" target="_blank">Conditions d'utilisation</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <img src="{% static 'logo.png' %}" class="ui centered mini image">
+            <div class="ui horizontal inverted small divided link list">
+                <a class="item" href="#" target="_blank">Libre et open source(GNU GPL)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui small modal inscription">
+      <i class="close icon"></i>
+      <div class="header">
+        Inscription
+      </div>
+      <div class="content">
+        <div class="description">
+          <form class="ui form" method="post" action="{% url 'accueil' %}">
+            {% csrf_token %}
+              {{ inscriptionForm.as_p }}
+              <input class="ui primary button" type="submit" value="Valider" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui small modal connexion">
+      <i class="close icon"></i>
+      <div class="header">
+        Connexion
+      </div>
+      <div class="content">
+        <div class="description">
+          <form class="ui form" method="post" action="{% url 'accueil' %}">
+            {% csrf_token %}
+              {{ connexionForm.as_p }}
+              <input class="ui primary button" type="submit" value="Valider" />
+               {% if error %}
+                    <span> * Nom d'utilisateur ou mot de passe incorrect</span>
+               {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        $("#inscription").click(function(){
+            $('.small.modal.inscription').modal('show') ;
+        });
+
+        $("#inscription2").click(function(){
+            $('.small.modal.inscription').modal('show') ;
+        });
+
+        $("#connexion").click(function(){
+            $('.small.modal.connexion').modal('show') ;
+        });
+
+        $('.ui.dropdown').dropdown();
+    </script>
+</body>
+
+</html>

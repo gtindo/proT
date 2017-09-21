@@ -1,0 +1,160 @@
+{% extends 'elearn/base.html' %}
+{% block title %} {{ cours.nom }} {% endblock %}
+
+{% block content %}
+    {% if testInscription %}
+       <div class="ui grid" style="padding-top: 80px; background: white">
+        <div class="sixteen wide column" style="text-align:center">
+            <h1>{{ cours.nom }}</h1>
+            <h4>Par {{ cours.ecole.nom }}</h4>
+            <div class="ui small image"><img src="{{cours.ecole.urlLogo}}" /></div>
+        </div>
+       </div>
+        <div class="ui grid">
+            <div class="one wide column"></div>
+            <div class="four wide column">
+                <h3>{{ semaine.titre }}</h3>
+                <div class="ui vertical menu" style="width:100%">
+                     <a class="ui item" href="#">Tableau de bord</a>
+                     {% for week, content in dictWeek.items %}
+                        <a class="ui item" href="{% url 'coursMainVid' cours.id content.0.id content.1.1.0.id %}">{{ week }}</a>
+                     {% endfor %}
+                     <a class="ui item" href="#">Notes</a>
+                     <a class="ui item" href="#">Forum</a>
+                </div><br />
+            </div>
+        </div>
+
+    {% else %}
+         <div class="head-img">
+        </div>
+        <div class="catalogue" style="background: #DDDDDD">
+            <div class="ui stackable grid">
+                <div class="two wide column">
+                </div>
+                <div class="three wide column" style="padding-top: 180px">
+                    <div class="ui vertical menu inverted blue">
+                        <a class="ui item" href="#vueEnsemble">Vue d'ensemble</a>
+                        <a class="ui item" href="#objectifs">Objectifs du cours</a>
+                        <a class="ui item" href="#programme">Programme du cours</a>
+                    </div><br />
+                    <button class="ui primary button" style="width: 94%; height: 50px">
+                        Inscription au cours
+                    </button><br /><br />
+                </div>
+                <div class="nine wide column" style="padding-top: 120px">
+                    <div class="ui breadcrumb">
+                        <a class="section" href="{% url 'catalogue' %}">Catalogue</a>
+                        <i class="right angle icon divider"></i>
+                        <a class="section" href="{% url 'categorie' categorie.id %}">{{ categorie.nom }}</a>
+                        <i class="right angle icon divider"></i>
+                        <a class="section" href="{% url 'sousCategorie' sousCategorie.id %}">{{ sousCategorie.nom }}</a>
+                    </div><br /><br />
+                    <div>
+                        <h1>{{ cours.nom }}</h1>
+                    </div>
+                    <div class="ui piled segment" id="vueEnsemble">
+
+                        <h3 class="ui header">Crée par : {{ cours.ecole.nom }}</h3>
+                        <div class="ui small image"><img src="{{cours.ecole.urlLogo}}" /></div>
+
+                        <h3 class="ui header">Enseignants : </h3>
+                        <div>
+                            {% for enseignant in enseignants %}
+                                {% load static %}
+                                <img src="{% static 'logo.png' %}" class="ui tiny image" style="display:inline-block; vertical-align:top" />
+                            <span style="font-size:14pt">{{ enseignant.nom }}, {{ enseignant.titre }} {{ enseignant.domaine }}</span>.<br /><br />
+                            {% endfor %}
+                        </div><br />
+                        <div>
+                            <table class="ui celled table">
+                              <thead>
+                                <tr><th colspan="2">
+                                  Informations générales
+                                </th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <i class="blue level up icon"></i> Niveau
+                                  </td>
+                                  <td>{{ cours.niveau }}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <i class="blue flag icon"></i> Langue
+                                  </td>
+                                  <td>{{ cours.langue }}</td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <i class="blue checkmark icon"></i> Comment réussir ce cours
+                                  </td>
+                                  <td>Avoir 60% ou plus comme note generale</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+
+                        <h3 class="ui header" id="objectifs"> Objectifs du cours </h3>
+                        <p style="text-align:justify">{{ cours.objectif | safe }}</p>
+
+                        <h3 class="ui header" id="programme">Programme du cours</h3>
+                        <div>
+                            {% for week, content in dictWeek.items %}
+                                <table class="ui celled table">
+                                    <thead>
+                                        <tr><th colspan="2">
+                                            {{ week }}
+                                             </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <h4>{{ content.0.titre }}</h4>
+                                                <p style="text-align:justify">{{ content.0.syllabus }}</p>
+                                                <h4>{{ content.1.0 }} Vidéo(s), {{ content.2.0 }} Lecture(s), {{ content.3.0 }} Quiz</h4>
+                                                <ol>
+                                                    {% for video in content.1.1 %}
+                                                        <li>
+                                                            <i class="blue play circle icon"></i>{{ video.titre }}
+                                                        </li>
+                                                    {% endfor %}
+
+                                                    {% for lecture in content.2.1 %}
+                                                        <li>
+                                                            <i class="blue book icon"></i>{{ lecture.titre }}
+                                                        </li>
+                                                    {% endfor %}
+
+                                                    {% for quiz in content.3.1 %}
+                                                        <li>
+                                                            <i class="blue ordered list icon"></i>{{ quiz.titre }}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ol>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        </div><br />
+                        <div class="ui grid" style="width:100%">
+                            <div class="six wide column"></div>
+                            <div class="four wide column">
+                                <form class="ui form" method="post" action="{% url 'cours' cours.id %}">
+                                    {% csrf_token %}
+                                    {{ coursInscriptionForm.as_p}}
+
+                                    <input class="ui primary button" type="submit" value="Inscription au cours" />
+                                </form>
+                            </div>
+                        </div>
+                    </div><br />
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
